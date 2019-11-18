@@ -1,0 +1,49 @@
+{
+    "file_name": "mock_financial_data2.psv",
+    "separator": "|",
+    "rows": 5000,
+    "columns": {
+        "transaction_date": {
+            "type": "int",
+            "values": [20191117]
+        },
+        "loan_id": {
+            "type": "seq",
+            "offset": 0
+        },
+        "product_type": {
+            "type": "enum",
+            "values": ["mtg", "heloc", 8, 6, 3, "P", "C"]
+        },
+        "funded_amt": {
+            "type": "float",
+            "left_digits": 1,
+            "right_digits": 2,
+            "positive": true,
+            "min_value": 0,
+            "max_value": 15000
+
+        },
+        "unfunded_amt": {
+            "type": "float",
+            "left_digits": 3,
+            "right_digits": 2,
+            "positive": true,
+            "min_value": 0,
+            "max_value": 15000
+        },
+        "funding_total": {
+            "type": "sum",
+            "columns": ["funded_amt", "unfunded_amt"]
+        },
+        "commitment": {
+            "type": "int",
+            "min_value": 5000,
+            "max_value": 8000000
+        },
+        "moody_index": {
+            "type": "seq",
+            "offset": 63
+        }
+    }
+}
