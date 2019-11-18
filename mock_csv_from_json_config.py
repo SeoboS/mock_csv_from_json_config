@@ -34,9 +34,20 @@ def random_value_from_list(value_list):
 # Add all the values of the specified columns together and return the final value
 def add_column_values(row_dict, desired_columns):
     result = 0
-    for column in row_dict.keys():
-        if column in desired_columns:
-            result += row_dict.get(column, 0)
+    for column in desired_columns:
+        result += row_dict.get(column, 0)
+    return result
+
+
+# Find the difference of all the values of the specified columns together and return the final value
+def diff_column_values(row_dict, desired_columns):
+    result = 0
+    for column in range(len(desired_columns)):
+        column_name = desired_columns[column]
+        if column == 0:
+            result = row_dict.get(column_name, 0)
+        else:
+            result -= row_dict.get(column_name, 0)
     return result
 
 
@@ -55,7 +66,7 @@ def generate_csv_from_json_config(file_name, row_num, columns, specified_separat
     open(output_file_name, 'w').write(output_str.strip())
 
 
-# Generate
+# Generate a row of random data based off of the json configuration file
 def generate_random_csv_line_from_config(column_list, config_list, row_num):
     random_row = {}
     for column in range(len(column_list)):
@@ -91,7 +102,12 @@ def generate_random_csv_line_from_config(column_list, config_list, row_num):
                                                     min_value=column_config.get('min_value'),
                                                     max_value=column_config.get('max_value'))
         elif column_type == 'sum':
-            random_row[column_name] = add_column_values(random_row, set(column_config.get('columns')))
+            random_row[column_name] = add_column_values(random_row, column_config.get('columns'))
+        elif column_type == 'diff':
+            random_row[column_name] = diff_column_values(random_row, column_config.get('columns'))
+        else:
+            print('Unsupported column_type, defaulting to empty string')
+            random_row[column_name] = ''
     return random_row.values()
 
 
