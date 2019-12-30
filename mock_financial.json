@@ -1,19 +1,37 @@
 {
     "file_name": "mock_financial_data.csv",
-    "rows": 100000,
+    "rows": 1000000,
     "columns": {
-        "transaction_date": {
-            "type": "int",
-            "values": [20191116]
+        "asOfDate": {
+            "type": "enum",
+            "values": ["20190630","20190731","20190830","20190930","20191031","20191130"]
         },
+	"fico": {
+	    "type": "int",
+	    "min_value": 300,
+	    "max_value": 800
+	},
+	"moRunId": {
+	    "type": "enum",
+	    "values": ["40040","40111","40555","41000"]
+	},
+	"scenario": {
+	    "type": "enum",
+	    "values": ["Base","Bull","Bear"]
+	},
         "loan_id": {
             "type": "seq",
-            "offset": 0
+            "offset": 0,
+	    "max_value": 40000
         },
-        "product_type": {
+        "status": {
             "type": "enum",
-            "values": ["mtg", "heloc", 8, 6, 3, "P", "C"]
+            "values": [ "9", "6", "3", "P", "C"]
         },
+	"product_type": {
+	    "type": "enum",
+	    "values": ["frm15","frm30","arm11","arm31","arm51","arm71","arm101","heloc1","heloc2"]
+	},
         "funded_amt": {
             "type": "float",
             "left_digits": 1,
@@ -21,7 +39,6 @@
             "positive": true,
             "min_value": 0,
             "max_value": 15000
-
         },
         "unfunded_amt": {
             "type": "float",
