@@ -80,7 +80,7 @@ def generate_random_csv_line_from_config(column_list, config_list, row_num, max_
         elif column_set_values is not None and column_type == 'enum' and column_set_values:
             random_row[column_name] = random_value_from_list(column_set_values)
         elif column_set_values is not None and column_type == 'ordered_enum' and column_set_values:
-            rep = column_config.get('rep', 0)
+            rep = column_config.get('rep', 1)
             random_row[column_name] = column_set_values[( row_num//rep) % len(column_set_values)]
         elif column_type == 'seq':
             offset = column_config.get('offset', 0)
