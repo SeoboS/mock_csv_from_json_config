@@ -22,7 +22,7 @@ sys_args = parser.parse_args()
 # Function to generate a delimited string from the values of the passed in list
 def list_to_csv_line(value_list, output_separator=separator):
     str_value_list = [str(word) for word in value_list]
-    return output_separator.join(str_value_list) + '\n'
+    return ''.join(output_separator.join(str_value_list),'\n')
 
 
 # Function to generate a random value from a list of user specified values - similar to ENUM
@@ -60,9 +60,13 @@ def generate_csv_from_json_config(file_name, row_num, columns, specified_separat
     column_list = list(columns.keys())
     config_list = list(columns.values())
     output_str = list_to_csv_line(column_list, output_separator)
-    for row in range(output_row_num):
-        output_str += list_to_csv_line(generate_random_csv_line_from_config(column_list, config_list, row, output_row_num),
+    "".join(
+        [list_to_csv_line(generate_random_csv_line_from_config(column_list, config_list, row, output_row_num),
                                        output_separator)
+             for row in range(output_row_num)])
+    # for row in range(output_row_num):
+    #     "".join(output_str, list_to_csv_line(generate_random_csv_line_from_config(column_list, config_list, row, output_row_num),
+    #                                    output_separator))
     open(output_file_name, 'w').write(output_str.strip())
 
 
