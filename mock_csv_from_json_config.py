@@ -61,13 +61,13 @@ def generate_csv_from_json_config(file_name, row_num, columns, specified_separat
     config_list = list(columns.values())
     output_str = list_to_csv_line(column_list, output_separator)
     for row in range(output_row_num):
-        output_str += list_to_csv_line(generate_random_csv_line_from_config(column_list, config_list, row),
+        output_str += list_to_csv_line(generate_random_csv_line_from_config(column_list, config_list, row, output_row_num),
                                        output_separator)
     open(output_file_name, 'w').write(output_str.strip())
 
 
 # Generate a row of random data based off of the json configuration file
-def generate_random_csv_line_from_config(column_list, config_list, row_num):
+def generate_random_csv_line_from_config(column_list, config_list, row_num, max_rows):
     random_row = {}
     for column in range(len(column_list)):
         column_name = column_list[column]
@@ -77,11 +77,17 @@ def generate_random_csv_line_from_config(column_list, config_list, row_num):
         if column_type is None:
             print('JSON file not properly formatted')
             exit(1)
-        elif column_set_values is not None and column_set_values:
+        elif column_set_values is not None and column_type == 'enum' and column_set_values:
             random_row[column_name] = random_value_from_list(column_set_values)
+        elif column_set_values is not None and column_type == 'ordered_enum' and column_set_values:
+            rep = column_config.get('rep', 0)
+            random_row[column_name] = column_set_values[( row_num//rep) % len(column_set_values)]
         elif column_type == 'seq':
             offset = column_config.get('offset', 0)
-            random_row[column_name] = row_num + offset
+            step = column_config.get('step', 1)
+            max = column_config.get('max_value', sys.maxsize)
+            rep = column_config.get('rep', 1)
+            random_row[column_name] = ( (row_num // rep )*step + offset) % max
         elif column_type == 'int':
             random_row[column_name] = faker.pyint(
                 min_value=column_config.get('min_value', (-sys.maxsize - 1)) if column_config.get(

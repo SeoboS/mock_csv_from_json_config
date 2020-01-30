@@ -1,32 +1,51 @@
 {
     "file_name": "mock_financial_data.csv",
-    "rows": 1000000,
+    "rows": 4500000,
     "columns": {
         "asOfDate": {
-            "type": "enum",
-            "values": ["20190630","20190731","20190830","20190930","20191031","20191130"]
+            "type": "ordered_enum",
+            "values": [
+              "20190228","20190228",
+              "20190331","20190331",
+              "20190430","20190430",
+              "20190531","20190531",
+              "20190630","20190630",
+              "20190731","20190731",
+              "20190830","20190830",
+              "20190930","20190930",
+              "20191031","20191031",
+              "20191130","20191130"],
+            "rep": 450000
         },
-	"fico": {
-	    "type": "int",
-	    "min_value": 300,
-	    "max_value": 800
-	},
 	"moRunId": {
-	    "type": "enum",
-	    "values": ["40040","40111","40555","41000"]
+	    "type": "ordered_enum",
+	    "values": ["40040","40111","40555","41000","42000","43000","44000","45000","46000","47000",
+                    "50040","50111","50555","51000","52000","53000","54000","55000","56000","57000"],
+        "rep": 450000
 	},
 	"scenario": {
-	    "type": "enum",
-	    "values": ["Base","Bull","Bear"]
+	    "type": "ordered_enum",
+	    "values": ["Base","Bull","Bear"],
+        "rep": 150000
 	},
         "loan_id": {
             "type": "seq",
-            "offset": 0,
-	    "max_value": 40000
+            "offset": 500000,
+            "step": 10,
+	        "max_value": 1000000
+        },
+        "fico": {
+            "type": "int",
+            "min_value": 300,
+            "max_value": 800
         },
         "status": {
             "type": "enum",
             "values": [ "9", "6", "3", "P", "C"]
+        },
+        "moody_index": {
+            "type": "seq",
+            "offset": 63
         },
 	"product_type": {
 	    "type": "enum",
@@ -37,16 +56,16 @@
             "left_digits": 1,
             "right_digits": 2,
             "positive": true,
-            "min_value": 0,
-            "max_value": 15000
+            "min_value": 10000,
+            "max_value": 3000000
         },
         "unfunded_amt": {
             "type": "float",
             "left_digits": 3,
             "right_digits": 2,
             "positive": true,
-            "min_value": 0,
-            "max_value": 15000
+            "min_value": 10000,
+            "max_value": 1000000
         },
         "funding_total": {
             "type": "sum",
@@ -56,10 +75,6 @@
             "type": "int",
             "min_value": 5000,
             "max_value": 8000000
-        },
-        "moody_index": {
-            "type": "seq",
-            "offset": 63
         }
     }
 }
